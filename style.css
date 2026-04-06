@@ -42,6 +42,9 @@ img {
     max-width: 100%;
     height: auto;
 }
+.founder-image img {
+    border-radius: 10px;
+}
 .clients-logos {
     display: flex;
     gap: 20px;
@@ -175,5 +178,8 @@ h2, h3 {
     }
     .services .container {
         grid-template-columns: 1fr;
+    }
+     .container {
+        padding: 15px;
     }
 }
