@@ -4,6 +4,14 @@ const links=[['Главная','index.html'],['Проекты','projects.html'],
 const header=document.createElement('header');header.id='soul-v25-header';header.setAttribute('aria-label','Навигация по сайту');
 const brand=document.createElement('a');brand.className='soul-nav-brand';brand.href=base+'index.html';brand.innerHTML='<img src="'+base+'assets/soul-brand-original.png" alt=""><span>SOUL OF THE SYSTEM</span>';header.appendChild(brand);
 const items=document.createElement('nav');items.className='soul-nav-items';for(const [name,url] of links){const a=document.createElement('a');a.href=base+url;a.textContent=name;if(!url.includes('#')&&location.pathname.endsWith('/'+url))a.classList.add('active');items.appendChild(a)}header.appendChild(items);
+// Accessible, collapsible mobile menu. Desktop navigation remains unchanged.
+const toggle=document.createElement('button');toggle.type='button';toggle.className='soul-nav-toggle';toggle.setAttribute('aria-label','Открыть меню');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-controls','soul-v25-links');toggle.textContent='☰';items.id='soul-v25-links';header.insertBefore(toggle,items);
+const closeMobile=()=>{header.classList.remove('soul-nav-open');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Открыть меню');toggle.textContent='☰';};
+toggle.addEventListener('click',()=>{const open=header.classList.toggle('soul-nav-open');toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Закрыть меню':'Открыть меню');toggle.textContent=open?'×':'☰';});
+items.addEventListener('click',e=>{if(e.target.closest('a'))closeMobile();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMobile();});
+document.addEventListener('click',e=>{if(!header.contains(e.target))closeMobile();});
+
 // Persist the originating homepage position before leaving for any subpage.
 const HOME_POS='soul-home-position-v30';
 const getSaved=()=>{try{return JSON.parse(sessionStorage.getItem(HOME_POS)||'null')}catch{return null}};
