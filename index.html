@@ -6,33 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soul of the System</title>
     <link rel="stylesheet" href="style.css">
-</head>
+<meta name="theme-color" content="#071522">
+<link rel="stylesheet" href="soul-v25-nav.css"><script defer src="soul-v25-nav.js"></script></head>
 <body>
 
-    <!-- 1. Первый экран -->
-    <section class="hero">
-    <div class="hero-bg"></div>
-
-    <div class="hero-content container">
-        <img src="logo_neon_no_bg.png" alt="Soul of the System" class="hero-logo">
-
-        <div class="hero-card">
+    <!-- 1. Первый экран: изолированное обновление -->
+    <section class="hero hero-v2">
+      <div class="hero-bg"></div><div class="v25-space" aria-hidden="true"><div class="v25-space-grid"></div><div class="v25-space-stream v25-stream-one"></div><div class="v25-space-stream v25-stream-two"></div><div class="v25-space-halo"></div><div class="v25-space-nodes"></div></div><div class="soul-background-brand" aria-hidden="true"><img src="assets/soul-brand-original.png" alt=""></div><div class="soul-background-rings" aria-hidden="true"></div>
+      <div class="hero-content container hero-v2-layout">
+        <div class="hero-v2-copy">
+          <div class="v25-hero-brand"><img src="assets/soul-logo-smooth.webp" alt="Soul of the System" class="hero-logo hero-v2-logo"></div>
+          <div class="hero-card hero-v2-card">
             <p class="hero-subtitle">SOUL OF THE SYSTEM</p>
-
-<h1>Люди. Системы. Масштабирование.</h1>
-
-<p class="hero-text">
-Создаем корпоративные университеты, внедряем HR-системы,
-разрабатываем ИИ-аватаров и цифровые решения,
-которые помогают бизнесу расти без хаоса.
-</p>
-
-<a href="#clients" class="btn">Смотреть кейсы</a>
+            <h1>Люди. Системы.<br>Масштабирование.</h1>
+            <p class="hero-text">Создаем корпоративные университеты, внедряем HR-системы, разрабатываем ИИ-аватаров и цифровые решения, которые помогают бизнесу расти без хаоса.</p>
+            <div class="hero-v2-actions"><a href="museum.html" class="btn">Войти в музей ↗</a><a href="projects.html" class="hero-v2-secondary">Все проекты →</a><a href="#clients" class="hero-v2-secondary">Смотреть кейсы →</a></div>
+            <button type="button" id="soulReplayIntro" class="soul-replay-intro" title="Повторить анимацию запуска">↻ Повторить заставку</button>
+          </div>
         </div>
-    </div>
-</section>
+        <div class="cube-stage" aria-label="Интерактивный куб с проектами">
+          <div class="cube-aura"></div>
+          <div class="cube-scene" id="cubeScene">
+            <div class="portfolio-cube" id="portfolioCube">
+              <div class="cube-face face-front"><a href="cases/kungfu-malatang.html" class="cube-cell" title="KungFu Malatang"><img src="assets/root/logo_7.png" alt=""><span class="cube-tile-label">KungFu Malatang</span></a><a href="cases/nomado-netcars.html" class="cube-cell" title="Nomado Group"><img src="assets/root/logo_5.png" alt=""><span class="cube-tile-label">Nomado Group</span></a><a href="cases/anilmantra.html" class="cube-cell" title="Anilmantra"><img src="assets/root/logo_1.png" alt=""><span class="cube-tile-label">Anilmantra</span></a><a href="university.html" class="cube-cell" title="Университет"><span class="cube-tile-icon" aria-hidden="true">✦</span><span class="cube-tile-label">Университет</span></a><a href="hr-systems.html" class="cube-cell" title="HR-системы"><span class="cube-tile-icon" aria-hidden="true">⌘</span><span class="cube-tile-label">HR-системы</span></a><a href="ai-avatars.html" class="cube-cell" title="ИИ-аватары"><span class="cube-tile-icon" aria-hidden="true">◉</span><span class="cube-tile-label">ИИ-аватары</span></a><a href="arkadiy.html" class="cube-cell" title="Команда"><img src="assets/root/Аркадий.png" alt=""><span class="cube-tile-label">Команда</span></a><a href="websites.html" class="cube-cell" title="Сайты"><span class="cube-tile-icon" aria-hidden="true">◇</span><span class="cube-tile-label">Сайты</span></a><a href="museum.html" class="cube-cell" title="Музей"><span class="cube-tile-icon" aria-hidden="true">▣</span><span class="cube-tile-label">Музей</span></a></div>
+              <div class="cube-face face-right"><a href="cases/aline.html" class="cube-cell" title="A-Line"><img src="assets/root/logo_2.png" alt=""><span class="cube-tile-label">A-Line</span></a><a href="cases/donplus.html" class="cube-cell" title="Don Plus"><img src="assets/root/logo_3.png" alt=""><span class="cube-tile-label">Don Plus</span></a><a href="cases/smpoint.html" class="cube-cell" title="SM Point"><img src="assets/root/logo_4.png" alt=""><span class="cube-tile-label">SM Point</span></a><a href="#clients" class="cube-cell" title="Партнёры"><span class="cube-tile-icon" aria-hidden="true">✧</span><span class="cube-tile-label">Партнёры</span></a><a href="projects.html" class="cube-cell" title="Проекты"><span class="cube-tile-icon" aria-hidden="true">◈</span><span class="cube-tile-label">Проекты</span></a><a href="projects.html" class="cube-cell" title="Кейсы"><span class="cube-tile-icon" aria-hidden="true">▤</span><span class="cube-tile-label">Кейсы</span></a><a href="#contacts" class="cube-cell" title="Контакты"><span class="cube-tile-icon" aria-hidden="true">✉</span><span class="cube-tile-label">Контакты</span></a><a href="university.html" class="cube-cell" title="Курсы"><span class="cube-tile-icon" aria-hidden="true">✺</span><span class="cube-tile-label">Курсы</span></a><a href="websites.html" class="cube-cell" title="Digital"><span class="cube-tile-icon" aria-hidden="true">◉</span><span class="cube-tile-label">Digital</span></a></div>
+              <div class="cube-face face-back"><a href="museum.html" class="cube-cell" title="Музей"><span class="cube-tile-icon" aria-hidden="true">▣</span><span class="cube-tile-label">Музей</span></a><a href="projects.html" class="cube-cell" title="Все проекты"><span class="cube-tile-icon" aria-hidden="true">◈</span><span class="cube-tile-label">Все проекты</span></a><a href="hr-systems.html" class="cube-cell" title="HR-системы"><span class="cube-tile-icon" aria-hidden="true">⌘</span><span class="cube-tile-label">HR-системы</span></a><a href="university.html" class="cube-cell" title="Обучение"><span class="cube-tile-icon" aria-hidden="true">✦</span><span class="cube-tile-label">Обучение</span></a><a href="ai-avatars.html" class="cube-cell" title="ИИ-аватары"><span class="cube-tile-icon" aria-hidden="true">◉</span><span class="cube-tile-label">ИИ-аватары</span></a><a href="websites.html" class="cube-cell" title="Сайты"><span class="cube-tile-icon" aria-hidden="true">◇</span><span class="cube-tile-label">Сайты</span></a><a href="university.html" class="cube-cell" title="Тесты"><span class="cube-tile-icon" aria-hidden="true">☑</span><span class="cube-tile-label">Тесты</span></a><a href="university.html" class="cube-cell" title="Сертификаты"><span class="cube-tile-icon" aria-hidden="true">✷</span><span class="cube-tile-label">Сертификаты</span></a><a href="#contacts" class="cube-cell" title="Связаться"><span class="cube-tile-icon" aria-hidden="true">✉</span><span class="cube-tile-label">Связаться</span></a></div>
+              <div class="cube-face face-left"><a href="cases/nomado-netcars.html" class="cube-cell" title="Nomado"><img src="assets/root/logo_5.png" alt=""><span class="cube-tile-label">Nomado</span></a><a href="cases/kungfu-malatang.html" class="cube-cell" title="KungFu"><img src="assets/root/logo_7.png" alt=""><span class="cube-tile-label">KungFu</span></a><a href="oksana.html" class="cube-cell" title="Оксана"><img src="assets/root/Оксана.jpg" alt=""><span class="cube-tile-label">Оксана</span></a><a href="arkadiy.html" class="cube-cell" title="Аркадий"><img src="assets/root/Аркадий.png" alt=""><span class="cube-tile-label">Аркадий</span></a><a href="arkadiy.html" class="cube-cell" title="Команда"><span class="cube-tile-icon" aria-hidden="true">♙</span><span class="cube-tile-label">Команда</span></a><a href="projects.html" class="cube-cell" title="Проекты"><span class="cube-tile-icon" aria-hidden="true">◈</span><span class="cube-tile-label">Проекты</span></a><a href="#clients" class="cube-cell" title="Партнёры"><span class="cube-tile-icon" aria-hidden="true">✧</span><span class="cube-tile-label">Партнёры</span></a><a href="ai-avatars.html" class="cube-cell" title="ИИ"><span class="cube-tile-icon" aria-hidden="true">◉</span><span class="cube-tile-label">ИИ</span></a><a href="museum.html" class="cube-cell" title="Музей"><span class="cube-tile-icon" aria-hidden="true">▣</span><span class="cube-tile-label">Музей</span></a></div>
+              <div class="cube-face face-top"><span class="cube-end-brand"><img src="assets/soul-neon-transparent.png" alt="Soul of the System"></span></div>
+              <div class="cube-face face-bottom"><span class="cube-end-brand cube-end-brand-bottom"><img src="assets/soul-neon-transparent.png" alt="Soul of the System"></span></div>
+            </div>
+          </div>
+          <div class="cube-hint">↔ Наведи курсор или проведи пальцем · Нажми на проект</div>
+          <a href="projects.html" class="cube-mobile-link">Открыть все проекты →</a>
+        </div>
+      </div>
+    </section>
 
-<section class="products">
+<section class="products" id="services">
     <div class="container">
         <h2>Что мы создаем</h2>
 
@@ -120,38 +130,38 @@
         <div class="container">
             <h2>С кем мы уже работаем</h2>
             <div class="clients-logos">
-    <a href="anilmantra.html">
-        <img src="logo_1.png" alt="Anilmantra">
+    <a href="cases/anilmantra.html">
+        <img src="assets/root/logo_1.png" alt="Anilmantra">
     </a>
 
-    <a href="donplus.html">
-        <img src="logo_3.png" alt="Don Plus">
+    <a href="cases/donplus.html">
+        <img src="assets/root/logo_3.png" alt="Don Plus">
     </a>
 
-    <a href="smpoint.html">
-        <img src="logo_4.png" alt="SMPoint">
+    <a href="cases/smpoint.html">
+        <img src="assets/root/logo_4.png" alt="SMPoint">
     </a>
 
-    <a href="aline.html">
-        <img src="logo_2.png" alt="A-Line">
+    <a href="cases/aline.html">
+        <img src="assets/root/logo_2.png" alt="A-Line">
     </a>
 
-    <a href="netcars.html">
-        <img src="logo_5.png" alt="NetCars">
+    <a href="cases/nomado-netcars.html">
+        <img src="assets/root/logo_5.png" alt="NetCars">
     </a>
 
-    <a href="golden-service.html">
-        <img src="logo_6.png" alt="Golden Service">
+    <a href="cases/golden-service.html">
+        <img src="assets/root/logo_6.png" alt="Golden Service">
     </a>
 
-    <a href="kungfu-malatang.html">
-        <img src="logo_7.png" alt="KungFu Malatang">
+    <a href="cases/kungfu-malatang.html">
+        <img src="assets/root/logo_7.png" alt="KungFu Malatang">
     </a>
 </div>
         </div>
     </section>
 
-    <section class="team">
+    <section id="team" class="team">
     <div class="container">
         <h2>Наша команда</h2>
 
@@ -348,7 +358,7 @@
     </div>
 </section>
 
-<footer class="footer">
+<footer class="footer" id="contacts">
     <div class="container footer-grid">
 
         <div>
@@ -395,6 +405,7 @@
 </footer>
 
 <script src="script.js"></script>
+<script src="soul-intro.js" defer></script>
 
 </body>
 </html>

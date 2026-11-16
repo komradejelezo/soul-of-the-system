@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Start UP — управление промоушен проектом</title>
+<style>
+:root{color-scheme:light dark}
+*{box-sizing:border-box}
+body{margin:0;background:#eef3f9;font-family:Inter,Segoe UI,Arial,sans-serif;color:#142033}
+#promo-dashboard{--bg:#f3f6fb;--panel:#fff;--panel2:#f8fafc;--text:#142033;--muted:#66758b;--line:#dbe3ee;--nav:#12233f;--blue:#3478f6;--green:#15966b;--yellow:#d99012;--red:#d94b57;--greenbg:#e8f7f1;--yellowbg:#fff5d9;--redbg:#fdebed;--graybg:#edf1f5;background:var(--bg);color:var(--text);padding:18px;min-width:0}
+#promo-dashboard .shell{max-width:1500px;margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 18px 45px #12233f20}
+#promo-dashboard .top{background:var(--nav);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}
+#promo-dashboard h1{font-size:21px;line-height:1.25;margin:0;font-weight:600}
+#promo-dashboard .subtitle{font-size:12px;color:#aebbd0;margin-top:5px}
+#promo-dashboard .controls{display:flex;gap:8px;flex-wrap:wrap}
+#promo-dashboard select{background:#ffffff12;border:1px solid #ffffff25;color:#fff;padding:8px 30px 8px 11px;border-radius:9px;font-size:12px;cursor:pointer}
+#promo-dashboard select option{color:#142033;background:#fff}
+#promo-dashboard .content{padding:16px}
+#promo-dashboard .legend{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:12px;font-size:11px;color:var(--muted)}
+#promo-dashboard .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;background:#7b8798}.dot.ok{background:var(--green)}.dot.risk{background:var(--yellow)}.dot.bad{background:var(--red)}
+#promo-dashboard .kpis{display:grid;grid-template-columns:repeat(8,minmax(115px,1fr));gap:9px}
+#promo-dashboard .kpi{background:var(--panel2);padding:12px;border-radius:12px;min-height:89px;border-top:3px solid #7b8798}.kpi.ok{border-color:var(--green)}.kpi.risk{border-color:var(--yellow)}.kpi.bad{border-color:var(--red)}
+#promo-dashboard .label{font-size:11px;color:var(--muted);line-height:1.3}.value{font-size:22px;line-height:1.2;font-weight:600;margin:5px 0 2px;font-variant-numeric:tabular-nums}.delta{font-size:11px;color:var(--muted)}.delta strong{font-weight:600}.bad .delta strong{color:var(--red)}.risk .delta strong{color:var(--yellow)}.ok .delta strong{color:var(--green)}
+#promo-dashboard .alerts{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:10px 0 14px}.alert{padding:9px 11px;border-radius:10px;background:var(--redbg);font-size:12px;display:flex;justify-content:space-between;gap:8px}.alert.risk{background:var(--yellowbg)}.alert b{font-weight:600;font-variant-numeric:tabular-nums}
+#promo-dashboard .grid{display:grid;grid-template-columns:1.18fr .82fr;gap:12px;margin-top:12px}.grid.equal{grid-template-columns:1fr 1fr}
+#promo-dashboard .panel{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:13px;min-width:0}.panel h2{font-size:14px;margin:0 0 10px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:8px}.panel h2 span{font-size:11px;color:var(--muted);font-weight:400}
+#promo-dashboard table{width:100%;border-collapse:collapse;font-size:11px}th{color:var(--muted);font-weight:600;text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);white-space:nowrap}td{padding:8px 6px;border-bottom:1px solid #dbe3ee99;font-variant-numeric:tabular-nums;vertical-align:middle}td.num,th.num{text-align:right}tr:last-child td{border-bottom:0}
+#promo-dashboard .status{display:inline-flex;align-items:center;gap:4px;padding:3px 7px;border-radius:999px;white-space:nowrap;font-size:10px}.status.ok{background:var(--greenbg);color:var(--green)}.status.risk{background:var(--yellowbg);color:var(--yellow)}.status.bad{background:var(--redbg);color:var(--red)}
+#promo-dashboard .funnel{display:grid;gap:8px}.step{display:grid;grid-template-columns:125px 1fr 54px 56px;gap:8px;align-items:center;font-size:11px}.track{height:12px;background:var(--graybg);border-radius:8px;overflow:hidden}.bar{height:100%;background:var(--blue);border-radius:8px}.bar.bad{background:var(--red)}.bar.risk{background:var(--yellow)}.bar.ok{background:var(--green)}
+#promo-dashboard .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.mini{background:var(--panel2);padding:9px;border-radius:9px;min-height:68px}.mini .value{font-size:17px}.mini.bad{background:var(--redbg)}.mini.risk{background:var(--yellowbg)}.mini.ok{background:var(--greenbg)}
+#promo-dashboard .risk-window{background:linear-gradient(135deg,var(--redbg),var(--panel));border:1px solid #d94b5759;border-radius:13px;padding:13px;margin-top:12px}.risk-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:10px}.risk-head h2{font-size:14px;margin:0;font-weight:600}.risk-head p{font-size:11px;color:var(--muted);margin:3px 0 0}.risk-count{font-size:11px;color:var(--red);background:var(--redbg);padding:5px 8px;border-radius:999px}.risk-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.risk-item{display:grid;grid-template-columns:78px 1.05fr 1.2fr 105px;gap:8px;align-items:center;background:var(--panel);padding:9px;border-radius:9px;border-left:3px solid var(--yellow);font-size:11px}.risk-item.critical{border-left-color:var(--red)}.risk-title{font-weight:600}.risk-detail{color:var(--muted);line-height:1.35}.risk-owner{text-align:right;color:var(--muted)}
+#promo-dashboard .quality{display:grid;gap:8px}.qrow{display:grid;grid-template-columns:minmax(140px,1.5fr) 55px 68px 1fr 70px;gap:8px;align-items:center;font-size:11px}.qbar{height:7px;background:var(--graybg);border-radius:8px;overflow:hidden}.qbar i{display:block;height:100%;background:var(--green)}.qrow.bad .qbar i{background:var(--red)}.qrow.risk .qbar i{background:var(--yellow)}
+#promo-dashboard .foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:11px;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
+#promo-dashboard .hidden{display:none!important}
+@media(max-width:1000px){#promo-dashboard .kpis{grid-template-columns:repeat(4,1fr)}#promo-dashboard .alerts{grid-template-columns:repeat(2,1fr)}#promo-dashboard .grid,#promo-dashboard .grid.equal{grid-template-columns:1fr}#promo-dashboard .risk-list{grid-template-columns:1fr}}
+@media(max-width:580px){#promo-dashboard{padding:8px}.content{padding:10px!important}#promo-dashboard .kpis{grid-template-columns:repeat(2,1fr)}#promo-dashboard .alerts{grid-template-columns:1fr}#promo-dashboard .metric-grid{grid-template-columns:repeat(2,1fr)}#promo-dashboard .step{grid-template-columns:100px 1fr 45px}.step .conv{display:none}.risk-item{grid-template-columns:75px 1fr}.risk-detail,.risk-owner{grid-column:2}.risk-owner{text-align:left}.qrow{grid-template-columns:1fr 50px 65px}.qbar,.qrow .target{display:none}}
+
+/* V21 gallery lighting */ .gallery-item{box-shadow:0 14px 40px #0006,0 0 24px #3bd8ff0d!important}.gallery-item:hover{border-color:#76e6ff!important;box-shadow:0 18px 50px #0009,0 0 30px #42d9ff29!important}.gallery-item img{object-fit:contain!important;background:radial-gradient(ellipse,#1c3041,#081321)!important}.hero-art img{object-fit:contain!important;background:#0b1928!important}
+</style>
+<link rel="stylesheet" href="../soul-v25-nav.css"><script defer src="../soul-v25-nav.js"></script></head>
+<body>
+<div id="promo-dashboard">
+<div class="shell">
+  <header class="top">
+    <div><h1>Управление промоушен проектом</h1><div class="subtitle">Подбор · обучение · выход · удержание · регионы · демонстрационные данные</div></div>
+    <div class="controls" aria-label="Фильтры">
+      <select id="period"><option>Октябрь 2026</option><option>Сентябрь 2026</option></select>
+      <select id="region"><option value="all">Все регионы</option><option value="south">Южный регион</option><option value="north">Северный регион</option><option value="west">Западный регион</option></select>
+      <select id="city"><option value="all">Все города</option><option value="almaty">Алматы</option><option value="astana">Астана</option><option value="shymkent">Шымкент</option><option value="karaganda">Караганда</option><option value="aktobe">Актобе</option></select>
+    </div>
+  </header>
+  <main class="content">
+    <div class="legend"><span><i class="dot ok"></i>норма</span><span><i class="dot risk"></i>требует внимания</span><span><i class="dot bad"></i>критическая зона</span><span>Все цифры условные. Нормативы требуют утверждения.</span></div>
+
+    <section class="kpis" aria-label="Сводка собственника">
+      <div class="kpi risk"><div class="label">План штата</div><div class="value">120</div><div class="delta">25 точек · 5 городов</div></div>
+      <div class="kpi risk"><div class="label">Фактический штат</div><div class="value">106 · 88%</div><div class="delta"><strong>−14</strong> человек к плану</div></div>
+      <div class="kpi bad"><div class="label">Точки с дефицитом</div><div class="value">8</div><div class="delta"><strong>3 критические</strong></div></div>
+      <div class="kpi"><div class="label">Кандидаты в работе</div><div class="value">86</div><div class="delta">24 ожидаемых выхода</div></div>
+      <div class="kpi ok"><div class="label">Вышли за месяц</div><div class="value">31</div><div class="delta"><strong>103%</strong> к плану 30</div></div>
+      <div class="kpi risk"><div class="label">Обучение завершено</div><div class="value">78%</div><div class="delta"><strong>−12 п.п.</strong> к цели 90%</div></div>
+      <div class="kpi risk"><div class="label">Удержание 30 дней</div><div class="value">72%</div><div class="delta"><strong>−8 п.п.</strong> к цели 80%</div></div>
+      <div class="kpi bad"><div class="label">Регионы в зоне риска</div><div class="value">2 из 3</div><div class="delta">Астана и Запад</div></div>
+    </section>
+
+    <section class="alerts" aria-label="Критические сигналы">
+      <div class="alert"><span>Дефицит более 20%</span><b>3 точки</b></div>
+      <div class="alert"><span>Кандидаты без движения</span><b>11</b></div>
+      <div class="alert risk"><span>Обучение просрочено</span><b>9</b></div>
+      <div class="alert"><span>Ушли до 7-го дня</span><b>6</b></div>
+      <div class="alert risk"><span>Данные не обновлены</span><b>2 города</b></div>
+    </section>
+
+    <section class="risk-window" aria-label="Зоны риска">
+      <div class="risk-head"><div><h2>Зоны риска и управленческие действия</h2><p>Сигналы, которые требуют решения сегодня или в течение недели</p></div><span class="risk-count">3 критических · 3 требуют внимания</span></div>
+      <div class="risk-list">
+        <div class="risk-item critical" data-region="north" data-city="astana"><span class="status bad">Критический</span><div><div class="risk-title">Астана · Mega Center</div><div class="risk-detail">План 12, факт 7. Дефицит 42%</div></div><div class="risk-detail">Увеличить бюджет поиска и подключить дополнительный канал кандидатов</div><div class="risk-owner">Рекрутер + регион<br><b>сегодня</b></div></div>
+        <div class="risk-item critical" data-region="west" data-city="aktobe"><span class="status bad">Критический</span><div><div class="risk-title">Актобе · 2 точки</div><div class="risk-detail">4 выхода перенесены, 3 кандидата потеряны</div></div><div class="risk-detail">Проверить скорость контакта и назначить групповой отбор</div><div class="risk-owner">Полина<br><b>24 часа</b></div></div>
+        <div class="risk-item critical" data-region="south" data-city="shymkent"><span class="status bad">Критический</span><div><div class="risk-title">Шымкент · ранний уход</div><div class="risk-detail">Удержание 7 дней — 64% при цели 85%</div></div><div class="risk-detail">Проверить первые смены, наставника и соответствие обещанных условий</div><div class="risk-owner">Супервайзер<br><b>3 дня</b></div></div>
+        <div class="risk-item" data-region="south" data-city="almaty"><span class="status risk">Внимание</span><div><div class="risk-title">Алматы · обучение</div><div class="risk-detail">7 новичков не завершили обязательные уроки</div></div><div class="risk-detail">Связаться с новичками и руководителями точек, уточнить дату допуска</div><div class="risk-owner">Обучение<br><b>2 дня</b></div></div>
+        <div class="risk-item" data-region="north" data-city="karaganda"><span class="status risk">Внимание</span><div><div class="risk-title">Караганда · нет данных</div><div class="risk-detail">Статусы кандидатов не обновлялись 3 дня</div></div><div class="risk-detail">Проверить дисциплину учёта, иначе прогноз выходов недостоверен</div><div class="risk-owner">Рекрутер<br><b>сегодня</b></div></div>
+        <div class="risk-item" data-region="north" data-city="astana"><span class="status risk">Наблюдать</span><div><div class="risk-title">Астана · источник дорогой</div><div class="risk-detail">Стоимость выхода 31 700 ₸ при цели до 25 000 ₸</div></div><div class="risk-detail">Перераспределить бюджет в пользу реферального канала и Telegram</div><div class="risk-owner">Подбор<br><b>7 дней</b></div></div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <h2>План и факт по городам <span>город · точки · штат · риск</span></h2>
+        <div style="overflow-x:auto"><table><thead><tr><th>Регион / город</th><th class="num">Точек</th><th class="num">План</th><th class="num">Факт</th><th class="num">Дефицит</th><th class="num">В работе</th><th class="num">Ожид. выход</th><th class="num">Укомпл.</th><th>Статус</th></tr></thead><tbody id="cityRows">
+          <tr data-region="south" data-city="almaty"><td><b>Юг · Алматы</b></td><td class="num">9</td><td class="num">44</td><td class="num">42</td><td class="num">2</td><td class="num">28</td><td class="num">7</td><td class="num">95%</td><td><span class="status ok">● норма</span></td></tr>
+          <tr data-region="north" data-city="astana"><td><b>Север · Астана</b></td><td class="num">6</td><td class="num">31</td><td class="num">24</td><td class="num">7</td><td class="num">25</td><td class="num">8</td><td class="num">77%</td><td><span class="status bad">● критично</span></td></tr>
+          <tr data-region="south" data-city="shymkent"><td><b>Юг · Шымкент</b></td><td class="num">4</td><td class="num">18</td><td class="num">16</td><td class="num">2</td><td class="num">12</td><td class="num">3</td><td class="num">89%</td><td><span class="status risk">● удержание</span></td></tr>
+          <tr data-region="north" data-city="karaganda"><td><b>Север · Караганда</b></td><td class="num">3</td><td class="num">14</td><td class="num">13</td><td class="num">1</td><td class="num">9</td><td class="num">2</td><td class="num">93%</td><td><span class="status risk">● данные</span></td></tr>
+          <tr data-region="west" data-city="aktobe"><td><b>Запад · Актобе</b></td><td class="num">3</td><td class="num">13</td><td class="num">11</td><td class="num">2</td><td class="num">12</td><td class="num">4</td><td class="num">85%</td><td><span class="status bad">● выходы</span></td></tr>
+          <tr data-total="true"><td><b>Итого</b></td><td class="num"><b>25</b></td><td class="num"><b>120</b></td><td class="num"><b>106</b></td><td class="num"><b>14</b></td><td class="num"><b>86</b></td><td class="num"><b>24</b></td><td class="num"><b>88%</b></td><td><span class="status risk">● внимание</span></td></tr>
+        </tbody></table></div>
+      </div>
+      <div class="panel">
+        <h2>Воронка подбора <span>за текущий месяц</span></h2>
+        <div class="funnel">
+          <div class="step"><span>Отклики</span><div class="track"><div class="bar" style="width:100%"></div></div><b>248</b><span class="conv">100%</span></div>
+          <div class="step"><span>Первичный контакт</span><div class="track"><div class="bar risk" style="width:78%"></div></div><b>194</b><span class="conv">78%</span></div>
+          <div class="step"><span>Интервью</span><div class="track"><div class="bar risk" style="width:54%"></div></div><b>134</b><span class="conv">69%</span></div>
+          <div class="step"><span>Согласованы</span><div class="track"><div class="bar ok" style="width:41%"></div></div><b>102</b><span class="conv">76%</span></div>
+          <div class="step"><span>Обучение</span><div class="track"><div class="bar risk" style="width:32%"></div></div><b>80</b><span class="conv">78%</span></div>
+          <div class="step"><span>Стажировка</span><div class="track"><div class="bar risk" style="width:22%"></div></div><b>55</b><span class="conv">69%</span></div>
+          <div class="step"><span>Самост. выход</span><div class="track"><div class="bar ok" style="width:12.5%"></div></div><b>31</b><span class="conv">56%</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid equal">
+      <div class="panel">
+        <h2>Обучение и допуск <span>состояние новичков</span></h2>
+        <div class="metric-grid">
+          <div class="mini"><div class="label">Назначено обучение</div><div class="value">80</div></div>
+          <div class="mini risk"><div class="label">Завершили</div><div class="value">62 · 78%</div></div>
+          <div class="mini ok"><div class="label">Прошли проверку</div><div class="value">57 · 92%</div></div>
+          <div class="mini risk"><div class="label">Допущены к работе</div><div class="value">48</div></div>
+          <div class="mini bad"><div class="label">Просрочили обучение</div><div class="value">9</div></div>
+          <div class="mini risk"><div class="label">На дообучении</div><div class="value">5</div></div>
+          <div class="mini"><div class="label">Средний срок</div><div class="value">3,8 дня</div></div>
+          <div class="mini ok"><div class="label">Средний результат</div><div class="value">88%</div></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Удержание новичков <span>контрольные точки</span></h2>
+        <div class="quality">
+          <div class="qrow risk"><span>Первый самостоятельный выход</span><b>31</b><span class="target">план 30</span><div class="qbar"><i style="width:100%"></i></div><span class="status ok">норма</span></div>
+          <div class="qrow risk"><span>Остались на 7-й день</span><b>25 · 81%</b><span class="target">цель 85%</span><div class="qbar"><i style="width:81%"></i></div><span class="status risk">риск</span></div>
+          <div class="qrow risk"><span>Остались на 30-й день</span><b>18 · 72%</b><span class="target">цель 80%</span><div class="qbar"><i style="width:72%"></i></div><span class="status risk">риск</span></div>
+          <div class="qrow bad"><span>Остались на 90-й день</span><b>11 · 61%</b><span class="target">цель 70%</span><div class="qbar"><i style="width:61%"></i></div><span class="status bad">просадка</span></div>
+          <div class="qrow"><span>Главная причина ухода</span><b>График</b><span class="target">36%</span><div class="qbar"><i style="width:36%"></i></div><span class="status risk">проверить</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <h2>Источники кандидатов и бюджет <span>стоимость выхода, а не отклика</span></h2>
+        <div style="overflow-x:auto"><table><thead><tr><th>Источник</th><th class="num">Расход</th><th class="num">Отклики</th><th class="num">Интервью</th><th class="num">Выходы</th><th class="num">Цена выхода</th><th class="num">30 дней</th><th>Решение</th></tr></thead><tbody>
+          <tr><td><b>Instagram / таргет</b></td><td class="num">420 000 ₸</td><td class="num">96</td><td class="num">48</td><td class="num">12</td><td class="num">35 000 ₸</td><td class="num">7</td><td><span class="status bad">● оптимизировать</span></td></tr>
+          <tr><td><b>Telegram каналы</b></td><td class="num">180 000 ₸</td><td class="num">64</td><td class="num">38</td><td class="num">9</td><td class="num">20 000 ₸</td><td class="num">7</td><td><span class="status ok">● усилить</span></td></tr>
+          <tr><td><b>Рекомендации</b></td><td class="num">90 000 ₸</td><td class="num">30</td><td class="num">24</td><td class="num">7</td><td class="num">12 857 ₸</td><td class="num">6</td><td><span class="status ok">● масштабировать</span></td></tr>
+          <tr><td><b>Сайты вакансий</b></td><td class="num">145 000 ₸</td><td class="num">58</td><td class="num">24</td><td class="num">3</td><td class="num">48 333 ₸</td><td class="num">1</td><td><span class="status bad">● пересмотреть</span></td></tr>
+          <tr><td><b>Итого</b></td><td class="num"><b>835 000 ₸</b></td><td class="num"><b>248</b></td><td class="num"><b>134</b></td><td class="num"><b>31</b></td><td class="num"><b>26 935 ₸</b></td><td class="num"><b>21</b></td><td><span class="status risk">● есть резерв</span></td></tr>
+        </tbody></table></div>
+      </div>
+      <div class="panel">
+        <h2>Результаты рекрутеров <span>выходы и качество</span></h2>
+        <div style="overflow-x:auto"><table><thead><tr><th>Рекрутер</th><th class="num">Кандидаты</th><th class="num">Выходы</th><th class="num">Конверсия</th><th class="num">30 дней</th><th class="num">Актуальность</th><th>Статус</th></tr></thead><tbody>
+          <tr><td><b>Виктория</b></td><td class="num">82</td><td class="num">12</td><td class="num">14,6%</td><td class="num">9</td><td class="num">98%</td><td><span class="status ok">● устойчиво</span></td></tr>
+          <tr><td><b>Айгерим</b></td><td class="num">67</td><td class="num">10</td><td class="num">14,9%</td><td class="num">7</td><td class="num">94%</td><td><span class="status ok">● норма</span></td></tr>
+          <tr><td><b>Диана</b></td><td class="num">56</td><td class="num">6</td><td class="num">10,7%</td><td class="num">4</td><td class="num">87%</td><td><span class="status risk">● учёт</span></td></tr>
+          <tr><td><b>Региональный поиск</b></td><td class="num">43</td><td class="num">3</td><td class="num">7,0%</td><td class="num">1</td><td class="num">76%</td><td><span class="status bad">● усилить</span></td></tr>
+        </tbody></table></div>
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:12px">
+      <h2>Эффективность регионов <span>укомплектованность · выходы · обучение · удержание · данные</span></h2>
+      <div style="overflow-x:auto"><table><thead><tr><th>Регион</th><th class="num">План</th><th class="num">Факт</th><th class="num">Укомпл.</th><th class="num">План выходов</th><th class="num">Факт выходов</th><th class="num">Обучение</th><th class="num">Удержание 30</th><th class="num">Данные</th><th>Итог</th></tr></thead><tbody>
+        <tr><td><b>Южный</b></td><td class="num">62</td><td class="num">58</td><td class="num">94%</td><td class="num">14</td><td class="num">16</td><td class="num">84%</td><td class="num">76%</td><td class="num">98%</td><td><span class="status ok">● стабильно</span></td></tr>
+        <tr><td><b>Северный</b></td><td class="num">45</td><td class="num">37</td><td class="num">82%</td><td class="num">12</td><td class="num">10</td><td class="num">75%</td><td class="num">70%</td><td class="num">85%</td><td><span class="status bad">● дефицит</span></td></tr>
+        <tr><td><b>Западный</b></td><td class="num">13</td><td class="num">11</td><td class="num">85%</td><td class="num">4</td><td class="num">5</td><td class="num">67%</td><td class="num">60%</td><td class="num">91%</td><td><span class="status risk">● адаптация</span></td></tr>
+      </tbody></table></div>
+    </section>
+
+    <footer class="foot"><span>Главный принцип: план по точке связан с подбором, обучением, фактическим выходом и удержанием.</span><span>Демонстрационная версия для обсуждения архитектуры и нормативов.</span></footer>
+  </main>
+</div>
+</div>
+<script>
+const region=document.getElementById('region');
+const city=document.getElementById('city');
+function applyFilters(){
+  const r=region.value,c=city.value;
+  document.querySelectorAll('[data-region][data-city]').forEach(el=>{
+    const show=(r==='all'||el.dataset.region===r)&&(c==='all'||el.dataset.city===c);
+    el.classList.toggle('hidden',!show);
+  });
+  const total=document.querySelector('[data-total="true"]');
+  if(total) total.classList.toggle('hidden',r!=='all'||c!=='all');
+}
+region.addEventListener('change',()=>{city.value='all';applyFilters()});
+city.addEventListener('change',applyFilters);
+</script>
+</body>
+</html>

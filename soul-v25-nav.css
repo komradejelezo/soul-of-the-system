@@ -1,0 +1,11 @@
+
+/* V25 shared navigation */
+#soul-v25-header{position:fixed;z-index:9000;top:0;left:0;right:0;min-height:62px;display:flex;align-items:center;gap:16px;padding:9px clamp(14px,3vw,55px);background:linear-gradient(110deg,rgba(2,13,28,.91),rgba(5,37,57,.83));border-bottom:1px solid rgba(92,221,255,.38);box-shadow:0 8px 38px #00101b99, inset 0 1px #b2f7ff16;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);font:600 13px/1.3 Inter,Segoe UI,Arial,sans-serif;box-sizing:border-box}
+#soul-v25-header *{box-sizing:border-box}#soul-v25-header .soul-nav-brand{display:flex;align-items:center;gap:10px;min-width:190px;color:#e9faff;text-decoration:none;letter-spacing:.11em;font-size:10px;font-weight:900}#soul-v25-header .soul-nav-brand img{width:39px;height:39px;object-fit:contain;filter:drop-shadow(0 0 7px #35d4ff80)}#soul-v25-header .soul-nav-items{display:flex;align-items:center;justify-content:center;flex:1;gap:clamp(6px,1.3vw,22px);flex-wrap:wrap}#soul-v25-header a{color:#d3f1fa;text-decoration:none;transition:color .2s,background .2s}#soul-v25-header .soul-nav-items a{padding:9px 10px;border-radius:9px;white-space:nowrap}#soul-v25-header .soul-nav-items a:hover,#soul-v25-header .soul-nav-items a.active{color:#fff;background:#1b98bb50}#soul-v25-header .soul-nav-back{border:1px solid #70dcff75;padding:9px 14px;border-radius:11px;white-space:nowrap;background:#0b425b;color:#fff}#soul-v25-header .soul-nav-back:hover{background:#0b7293}body{padding-top:62px!important}html{scroll-padding-top:80px}#soul-v25-header a:focus-visible{outline:2px solid #7ce9ff;outline-offset:3px}
+@media(max-width:980px){#soul-v25-header{gap:7px;padding:7px 12px;min-height:60px}#soul-v25-header .soul-nav-brand{min-width:auto}#soul-v25-header .soul-nav-brand span{display:none}#soul-v25-header .soul-nav-items{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}#soul-v25-header .soul-nav-items a{font-size:11px;padding:8px 7px}#soul-v25-header .soul-nav-back{padding:8px;font-size:11px}}
+
+/* V26: keep museum navigation above WebGL canvas and interaction layers */
+#soul-v25-header{z-index:2147483000!important;pointer-events:auto!important;isolation:isolate!important}
+#soul-v25-header a,#soul-v25-header nav{pointer-events:auto!important;position:relative;z-index:1}
+#app{z-index:0!important}
+#contacts{scroll-margin-top:90px}
