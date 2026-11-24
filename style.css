@@ -771,3 +771,113 @@ body.soul-intro .soul-background-rings,body.soul-intro .v25-space-halo,body.soul
   .cube-stage { min-height:310px!important; }
   .hero-v2-card h1 { font-size:clamp(25px,7.4vw,30px)!important; }
 }
+
+/* V33 Mobile Stability: same design language, fewer continuously repainted layers */
+@media (max-width: 767px), (pointer: coarse) {
+  .v25-space-grid,.v25-space-stream,.v25-space-halo,.v25-hero-brand:before,
+  .hero-orbit,.hero-starfield,.soul-background-rings { animation:none!important; }
+  .hero-v2-card,.service-card,.stat-card,.team-card,.extra-card {backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+  .hero-v2-card {background:linear-gradient(135deg,rgba(7,22,39,.96),rgba(5,13,25,.88))!important;}
+  .cube-scene,.portfolio-cube {contain:layout style;}
+  .cube-cell:hover,.cube-cell:active {transform:none!important;}
+}
+@media (max-width:767px) { .clients-logos img{width:100px;max-width:100%;height:76px;object-fit:contain;} }
+
+
+/* V34 original partner identities: glass-framed, unmodified company logos. */
+.clients-logos{display:grid;grid-template-columns:repeat(auto-fit,minmax(126px,1fr));max-width:1100px;margin-inline:auto;gap:14px;align-items:stretch}
+.clients-logos a{min-height:120px;min-width:0;display:grid;place-items:center;padding:13px;background:linear-gradient(155deg,rgba(20,56,75,.77),rgba(4,18,33,.82));border:1px solid rgba(103,219,255,.27);border-radius:17px;box-shadow:inset 0 1px rgba(203,245,255,.08);transition:border-color .22s,background .22s,transform .22s}
+.clients-logos a:hover{transform:translateY(-3px);border-color:rgba(128,234,255,.74);background:rgba(12,45,64,.95)}
+.clients-logos a img{display:block;width:100%;max-width:115px;height:84px;object-fit:contain;object-position:center;transition:transform .22s;filter:none!important}
+.clients-logos a:hover img{transform:scale(1.04)}
+/* Frame-saving compositing on handhelds; same colors, logo detail and geometry. */
+@media(max-width:767px),(pointer:coarse){
+ html{scroll-behavior:auto}
+ .clients-logos{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+ .clients-logos a{min-height:95px;padding:9px;border-radius:13px}
+ .clients-logos a img{width:100%;height:72px;max-width:104px}
+ .clients-logos a:hover{transform:none}
+ .cube-aura,.v25-space-nodes,.v25-space-grid,.v25-space-halo,.v25-space-stream,.soul-background-rings{animation:none!important}
+ .soul-background-brand,.cube-aura,.v25-space-stream,.v25-space-nodes{filter:none!important}
+ .cube-end-brand,.cube-end-brand img{filter:none!important}
+ .cube-cell img{filter:none!important}
+ section.reveal,footer.reveal{transition:none!important;transform:none!important;opacity:1!important}
+ .hero-v2 .hero-bg{background:radial-gradient(ellipse at 70% 30%,rgba(4,113,160,.26),transparent 74%),linear-gradient(135deg,#020714,#0b283e 60%,#020a17)!important}
+}
+@media(max-width:360px){.clients-logos{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.clients-logos a,.clients-logos img{transition:none!important}}
+
+/* V34: preserve the authentic 64-frame desktop logo; compositor-only motion on mobile. */
+@media(max-width:767px),(pointer:coarse){
+ .v25-hero-brand picture{display:block;max-width:100%;margin:auto}
+ .v25-hero-brand .hero-v2-logo{animation:sosMobileBrandHover 7s ease-in-out infinite!important;filter:drop-shadow(0 0 12px rgba(32,203,255,.28))!important}
+}
+@keyframes sosMobileBrandHover{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-4px,0)}}
+@media(prefers-reduced-motion:reduce){.v25-hero-brand .hero-v2-logo{animation:none!important}}
+
+/* Soul V35: service contacts and mobile rendering stability. */
+.sos-service-cta{width:calc(100% - 32px);max-width:1040px;box-sizing:border-box;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:14px;margin:28px auto 0;padding:18px 20px;border:1px solid rgba(103,218,253,.25);background:linear-gradient(120deg,#0d283e,#071929);border-radius:17px;text-align:center;color:#c7edf8}
+.sos-service-cta a,.sos-contact-wa{display:inline-flex;justify-content:center;align-items:center;min-height:44px;padding:10px 18px;border-radius:10px;background:#0b7190;color:#fff!important;font-weight:700;text-decoration:none!important;border:1px solid #5fd1ec}
+.sos-service-cta a:hover,.sos-contact-wa:hover{background:#1487aa}
+.sos-contact-shortcut{display:flex;flex-wrap:wrap;align-items:center;gap:12px;max-width:940px;margin:0 auto 40px;padding:19px 22px;background:#0a2135;color:#d9f5ff;border:1px solid #3383a0;border-radius:18px;justify-content:center;text-align:center}
+.sos-contact-shortcut>a:not(.sos-contact-wa){color:#8feaff;text-decoration:none;overflow-wrap:anywhere}
+@media(max-width:767px),(pointer:coarse){
+ #soul-v25-header{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:#071a2bf5!important}
+ .hero-v2-card,.employee-card,.service-detail-card,.soul-profile-hero{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+ .cube-stage,.cube-scene{backdrop-filter:none!important}
+ .v25-space *{filter:none!important}
+ .sos-service-cta,.sos-contact-shortcut{margin-left:12px;margin-right:12px;flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){.sos-video-play{transition:none!important}}
+
+
+/* === Soul V37: calm, stable first screen; keep 3D cube interactive ===
+   Stop full-screen repeated repaint and expensive 3D layer blending.
+   Preserve the original neon colors and spatial composition. */
+body::before {
+  animation: none !important;
+  transform: none !important;
+}
+/* The old page-wide moving light streak can appear as repeated flashes. */
+.hero-v2::before {
+  content: none !important;
+  animation: none !important;
+}
+/* The first-screen background must be steady, with no opacity pulsing. */
+.hero-v2 .hero-bg {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  background-attachment: scroll !important;
+}
+.hero-v2 .hero-bg::after {
+  animation: none !important;
+}
+/* Freeze decorative light beams and gradients, not the interactive cube. */
+.hero-v2 .v25-space-grid,
+.hero-v2 .v25-space-halo,
+.hero-v2 .v25-space-stream,
+.hero-v2 .v25-space-nodes,
+.hero-v2 .soul-background-rings,
+.hero-v2 .v25-hero-brand::before,
+.hero-v2 .hero-orbit,
+.hero-v2 .hero-starfield {
+  animation: none !important;
+}
+/* CSS's global * { transition: .3s } was fighting per-frame JS rotation.
+   Also avoid a costly filtered rasterization of the whole 3D scene. */
+.hero-v2 .portfolio-cube {
+  transition: none !important;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+.hero-v2 .cube-stage {
+  filter: none !important;
+}
+.hero-v2 .cube-face {
+  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-v2 .v25-hero-brand .hero-v2-logo { animation: none !important; }
+}

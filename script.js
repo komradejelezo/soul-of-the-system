@@ -1,22 +1,14 @@
+// V33: compositor-friendly section reveals; observe once rather than measuring all DOM on every scroll.
 const revealElements = document.querySelectorAll('section, footer');
+const sosLightDevice = matchMedia('(pointer:coarse), (max-width:767px)').matches;
 
-revealElements.forEach(element => {
-    element.classList.add('reveal');
-});
-
-function revealOnScroll() {
-    revealElements.forEach(element => {
-        const elementTop = element.getBoundingClientRect().top;
-        const windowHeight = window.innerHeight;
-
-        if (elementTop < windowHeight - 80) {
-            element.classList.add('active');
-        }
-    });
-}
-
-window.addEventListener('scroll', revealOnScroll);
-window.addEventListener('load', revealOnScroll);
+if(sosLightDevice){revealElements.forEach(element=>element.classList.add('active'));}
+else if ('IntersectionObserver' in window) {
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => { if(entry.isIntersecting){ entry.target.classList.add('active');observer.unobserve(entry.target); } });
+  }, {rootMargin:'0px 0px -45px 0px',threshold:0.01});
+  revealElements.forEach(element => {element.classList.add('reveal');revealObserver.observe(element);});
+} else {revealElements.forEach(element => element.classList.add('active'));}
 
 // Аккордеон услуг
 const items = document.querySelectorAll('.accordion-item');
@@ -49,7 +41,7 @@ function animateCounter(counter) {
         current += increment;
 
         if (current >= target) {
-            counter.innerText = target;
+            counter.innerText = String(target) + (counter.getAttribute('data-suffix') || '');
             clearInterval(timer);
         } else {
             counter.innerText = Math.floor(current);
@@ -57,21 +49,14 @@ function animateCounter(counter) {
     }, stepTime);
 }
 
-function startCountersOnScroll() {
-    const resultsSection = document.querySelector('.results');
-
-    if (!resultsSection || countersStarted) return;
-
-    const sectionTop = resultsSection.getBoundingClientRect().top;
-
-    if (sectionTop < window.innerHeight - 100) {
-        countersStarted = true;
-        counters.forEach(counter => animateCounter(counter));
-    }
+const resultsSection = document.querySelector('.results');
+if (resultsSection) {
+  const startCounters = () => { if(countersStarted)return; countersStarted = true;counters.forEach(animateCounter); };
+  if('IntersectionObserver' in window){
+    const countObserver = new IntersectionObserver(entries=>{ if(entries.some(x=>x.isIntersecting)){startCounters();countObserver.disconnect();} },{threshold:0.1});
+    countObserver.observe(resultsSection);
+  } else window.addEventListener('load',startCounters,{once:true});
 }
-
-window.addEventListener('scroll', startCountersOnScroll);
-window.addEventListener('load', startCountersOnScroll);
 // Interactive cube: drag from any tile; a simple click still follows its link.
 (() => {
     const cube = document.getElementById('portfolioCube');
@@ -88,7 +73,10 @@ window.addEventListener('load', startCountersOnScroll);
     // Pause rendering while offscreen or in a background tab, without changing visuals.
     let visible = true;
     let frameId = 0;
+    let idleTimer = 0;
     let previousTime = null;
+    let lastPaint = 0;
+    const mobileFrameInterval = matchMedia('(pointer: coarse)').matches ? ((navigator.deviceMemory&&navigator.deviceMemory<=2)?50:33) : 0;
     let dirty = true;
     function render(now) {
         frameId = 0;
@@ -99,33 +87,43 @@ window.addEventListener('load', startCountersOnScroll);
             ry += dt * 0.0045; // 0.075 degrees at 60 FPS
             dirty = true;
         }
-        if (dirty) {
+        if (dirty && (!mobileFrameInterval || now - lastPaint >= mobileFrameInterval || dragging)) {
+            lastPaint = now;
             cube.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
             dirty = false;
         }
-        if (!reduced || dragging || dirty) frameId = requestAnimationFrame(render);
+        if (!reduced || dragging || dirty) scheduleNext();
+    }
+    function scheduleNext(){
+        if(document.hidden || !visible || frameId || idleTimer) return;
+        if(mobileFrameInterval && !dragging){
+            idleTimer=setTimeout(()=>{idleTimer=0; if(!document.hidden&&visible) frameId=requestAnimationFrame(render);},mobileFrameInterval);
+        }else frameId=requestAnimationFrame(render);
+    }
+    function stop(){
+        if(frameId)cancelAnimationFrame(frameId);
+        if(idleTimer)clearTimeout(idleTimer);
+        frameId=idleTimer=0;previousTime=null;
     }
     function wake() {
         previousTime = null;
         dirty = true;
-        if (!frameId && !document.hidden && visible) frameId = requestAnimationFrame(render);
+        if (!frameId && !idleTimer && !document.hidden && visible) frameId = requestAnimationFrame(render);
     }
     const observer = new IntersectionObserver(entries => {
         visible = entries[0].isIntersecting;
         if (visible) wake();
-        else if (frameId) { cancelAnimationFrame(frameId); frameId = 0; previousTime = null; }
+        else stop();
     }, { threshold: 0 });
     observer.observe(scene);
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
-            if (frameId) cancelAnimationFrame(frameId);
-            frameId = 0;
-            previousTime = null;
+            stop();
         } else wake();
     });
     wake();
 
-    scene.addEventListener('pointerenter', () => { hovering = true; });
+    scene.addEventListener('pointerenter', e => { if(e.pointerType === 'mouse') hovering = true; });
     scene.addEventListener('pointerleave', () => { hovering = false; });
 
     scene.addEventListener('pointerdown', e => {

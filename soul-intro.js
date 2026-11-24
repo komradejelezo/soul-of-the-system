@@ -6,10 +6,26 @@ const overlay=document.createElement('div');overlay.id='soulMaterialize';overlay
 overlay.innerHTML='<canvas></canvas><img class="soul-intro-logo" src="assets/soul-brand-original.png" alt="" style="display:none">';
 document.body.appendChild(overlay);document.body.classList.add('soul-intro');
 const canvas=overlay.querySelector('canvas'),ctx=canvas.getContext('2d',{alpha:false}),logo=overlay.querySelector('img');
+const mobileIntro=matchMedia('(max-width:767px), (pointer:coarse)').matches;
+if(mobileIntro){
+  // Same company mark and cyan atmosphere, with a cheap composited fade instead of
+  // hundreds of canvas redraws that could cause Safari tab reloads.
+  const style=document.createElement('style');
+  style.textContent='#soulMaterialize{display:flex!important;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 50%,#0a3755,#020817 73%);transition:opacity .48s ease!important}#soulMaterialize canvas{display:none!important}#soulMaterialize .soul-intro-logo{display:block!important;width:min(62vw,240px);height:auto;max-height:36vh;object-fit:contain;filter:drop-shadow(0 0 25px rgba(51,213,255,.62))}';
+  document.head.appendChild(style);
+  // One splash overlay was already created above; reuse it to avoid a persistent dark layer.
+  let done=false;
+  const finish=()=>{if(done)return;done=true;document.body.classList.remove('soul-intro');overlay.style.opacity='0';setTimeout(()=>{overlay.remove();style.remove()},520)};
+  const timer=setTimeout(finish,850);
+  window.addEventListener('pagehide',()=>{clearTimeout(timer);finish()},{once:true});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){clearTimeout(timer);finish()}},{once:true});
+  return;
+}
+
 if(!ctx){overlay.remove();document.body.classList.remove('soul-intro');return}
-let w,h,scale,particles=[],targets=[];const TAU=Math.PI*2,duration=5300,start=performance.now();let done=false;
-function resize(){w=innerWidth;h=innerHeight;scale=Math.min(devicePixelRatio||1,1.5);canvas.width=Math.floor(w*scale);canvas.height=Math.floor(h*scale);ctx.setTransform(scale,0,0,scale,0,0);
-const count=Math.min(5200,Math.max(2600,Math.floor(w*h/360)));particles=Array.from({length:count},()=>({angle:Math.random()*TAU,rad:Math.hypot(w,h)*(.2+Math.random()*.75),speed:.6+Math.random()*1.1,size:.6+Math.random()*2.9,seed:Math.random(),drift:Math.random()*TAU}));
+let w,h,scale,particles=[],targets=[];const TAU=Math.PI*2,duration=mobileIntro?2100:5300,start=performance.now();let done=false;
+function resize(){w=innerWidth;h=innerHeight;scale=mobileIntro?1:Math.min(devicePixelRatio||1,1.5);canvas.width=Math.floor(w*scale);canvas.height=Math.floor(h*scale);ctx.setTransform(scale,0,0,scale,0,0);
+const count=mobileIntro?Math.min(760,Math.max(420,Math.floor(w*h/720))):Math.min(5200,Math.max(2600,Math.floor(w*h/360)));particles=Array.from({length:count},()=>({angle:Math.random()*TAU,rad:Math.hypot(w,h)*(.2+Math.random()*.75),speed:.6+Math.random()*1.1,size:.6+Math.random()*2.9,seed:Math.random(),drift:Math.random()*TAU}));
 // Sample the actual emblem outline from a dedicated vector-like canvas.
 const contour=document.createElement('canvas');contour.width=500;contour.height=500;
 const c=contour.getContext('2d',{willReadFrequently:true});
@@ -65,5 +81,5 @@ ctx.globalCompositeOperation='source-over';
 if(t>.59){ctx.globalAlpha=Math.min(1,(t-.59)/.20)*(1-dispersing);if(logo.complete&&logo.naturalWidth){const rw=Math.min(w*.55,h*.68,480),rh=rw*logo.naturalHeight/logo.naturalWidth;ctx.shadowColor='#27caff';ctx.shadowBlur=12;ctx.drawImage(logo,cx-rw/2,cy-rh/2,rw,rh);ctx.shadowBlur=0;}ctx.globalAlpha=1;}
 if(t>.76){const f=(t-.76)/.24;overlay.style.opacity=String(Math.max(0,1-ease(f)));if(t>.83)document.body.classList.remove('soul-intro');}
 if(t<1)requestAnimationFrame(frame);else finish()}
-requestAnimationFrame(frame);window.addEventListener('pagehide',finish,{once:true});setTimeout(finish,7000);
+requestAnimationFrame(frame);window.addEventListener('pagehide',finish,{once:true});document.addEventListener('visibilitychange',()=>{if(document.hidden)finish()},{once:true});setTimeout(finish,mobileIntro?3500:7000);
 })();

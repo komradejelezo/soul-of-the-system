@@ -1,5 +1,5 @@
 (()=>{'use strict';if(document.getElementById('soul-v25-header'))return;
-const sub=location.pathname.includes('/cases/'),base=sub?'../':'',home=/\/(?:index\.html)?$/.test(location.pathname);
+const sub=location.pathname.includes('/cases/');if(sub)return;const base='',home=/\/(?:index\.html)?$/.test(location.pathname);
 const links=[['Главная','index.html'],['Проекты','projects.html'],['Музей','museum.html'],['Услуги','index.html#services'],['Команда','index.html#team'],['Контакты','index.html#contacts']];
 const header=document.createElement('header');header.id='soul-v25-header';header.setAttribute('aria-label','Навигация по сайту');
 const brand=document.createElement('a');brand.className='soul-nav-brand';brand.href=base+'index.html';brand.innerHTML='<img src="'+base+'assets/soul-brand-original.png" alt=""><span>SOUL OF THE SYSTEM</span>';header.appendChild(brand);
